@@ -14,7 +14,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "FILEOBJECT")
-@DiscriminatorColumn(name = "TYPE")
 public class FileObjectEntity extends EntityBase {
     @Column(name = "EXT_ID")
     private String externalId;
@@ -118,5 +117,9 @@ public class FileObjectEntity extends EntityBase {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), externalId, type, name, contentReference, application);
+    }
+
+    public boolean isDirectory() {
+        return FileObjectType.DIRECTORY.equals(this.type);
     }
 }

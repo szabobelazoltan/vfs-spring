@@ -1,0 +1,5 @@
+package hu.szbz.vfs.errors;
+
+public enum ErrorCode {
+    UNKNOWN_APPLICATION, PERMISSION_DENIED, FILEOBJECT_NOT_EXIST, UNKNOWN_ACTOR
+}
