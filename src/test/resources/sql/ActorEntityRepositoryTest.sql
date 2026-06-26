@@ -1,0 +1,1 @@
+insert into "ACTOR" ("ID", "EXT_ID", "CREATION_DT", "MODIFICATION_DT") values (2, 'actor2', null, null);

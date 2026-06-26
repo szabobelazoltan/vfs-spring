@@ -1,0 +1,1 @@
+insert into "APPLICATION" ("ID", "EXT_ID", "NAME", "CREATION_DT", "MODIFICATION_DT") values (1, 'MYAPP', 'My Application', null, null);
