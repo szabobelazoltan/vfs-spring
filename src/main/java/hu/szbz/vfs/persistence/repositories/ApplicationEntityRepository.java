@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ApplicationEntityRepository extends CrudRepository<ApplicationEntity, Long> {
+    String APPID_VFS = "VFSBE";
 
     Optional<ApplicationEntity> findByExternalId(String externalId);
 }

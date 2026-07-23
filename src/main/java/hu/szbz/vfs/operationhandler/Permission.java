@@ -30,4 +30,10 @@ public enum Permission {
     public boolean isPresent(int input) {
         return (input & this.code) == this.code;
     }
+
+    public static int vectorToCode(Permission... permissions) {
+        int result = 0;
+        for (Permission permission : permissions) result |= permission.code;
+        return result;
+    }
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "FILEOBJECT")
@@ -121,5 +122,16 @@ public class FileObjectEntity extends EntityBase {
 
     public boolean isDirectory() {
         return FileObjectType.DIRECTORY.equals(this.type);
+    }
+
+    public static FileObjectEntity createNewDirectory(String name, ApplicationEntity application, FileObjectEntity parent) {
+        FileObjectEntity entity = new FileObjectEntity();
+        entity.setExternalId(UUID.randomUUID().toString());
+        entity.setType(FileObjectType.DIRECTORY);
+        entity.setStatus(FileObjectStatus.ACTIVE);
+        entity.setName(name);
+        entity.setApplication(application);
+        entity.setParent(parent);
+        return entity;
     }
 }
