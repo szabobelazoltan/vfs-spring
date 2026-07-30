@@ -1,7 +1,6 @@
 package hu.szbz.vfs.persistence.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -43,6 +42,10 @@ public class FileObjectEntity extends EntityBase {
     @ManyToOne
     @JoinColumn(name = "APPLICATION_ID", referencedColumnName = "ID")
     private ApplicationEntity application;
+
+    @Column(name = "SPEC_DIR_CODE")
+    @Enumerated(EnumType.ORDINAL)
+    private SpecialDirectoryCode specialDirectoryCode;
 
     public String getExternalId() {
         return externalId;
@@ -108,6 +111,14 @@ public class FileObjectEntity extends EntityBase {
         this.application = application;
     }
 
+    public SpecialDirectoryCode getSpecialDirectoryCode() {
+        return specialDirectoryCode;
+    }
+
+    public void setSpecialDirectoryCode(SpecialDirectoryCode specialDirectoryCode) {
+        this.specialDirectoryCode = specialDirectoryCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof FileObjectEntity that)) return false;
@@ -122,6 +133,10 @@ public class FileObjectEntity extends EntityBase {
 
     public boolean isDirectory() {
         return FileObjectType.DIRECTORY.equals(this.type);
+    }
+
+    public boolean isFile() {
+        return FileObjectType.FILE.equals(this.type);
     }
 
     public static FileObjectEntity createNewDirectory(String name, ApplicationEntity application, FileObjectEntity parent) {

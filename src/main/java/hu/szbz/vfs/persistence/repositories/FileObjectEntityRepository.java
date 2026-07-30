@@ -5,9 +5,9 @@ import hu.szbz.vfs.errors.VirtualFileSystemException;
 import hu.szbz.vfs.persistence.model.ActorEntity;
 import hu.szbz.vfs.persistence.model.FileObjectEntity;
 import hu.szbz.vfs.persistence.model.FileObjectType;
+import hu.szbz.vfs.persistence.model.SpecialDirectoryCode;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +27,6 @@ public interface FileObjectEntityRepository extends CrudRepository<FileObjectEnt
         return fileObject.get();
     }
 
-    @Query("SELECT a.fileObject FROM AccessEntity a WHERE a.actor = :actor AND a.role = hu.szbz.vfs.persistence.model.AccessRole.OWNER AND a.fileObject.parent IS NULL")
-    Optional<FileObjectEntity> findHome(@Param("actor") ActorEntity actor);
+    @Query("SELECT a.fileObject FROM AccessEntity a WHERE a.actor = :actor AND a.role = hu.szbz.vfs.persistence.model.AccessRole.OWNER AND a.fileObject.specialDirectoryCode = :specialDirectoryCode")
+    Optional<FileObjectEntity> findBySpecialDirectory(ActorEntity actor, SpecialDirectoryCode specialDirectoryCode);
 }

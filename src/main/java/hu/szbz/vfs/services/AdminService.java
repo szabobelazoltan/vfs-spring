@@ -61,11 +61,6 @@ public class AdminService {
         FileObjectEntity homeDir = FileObjectEntity.createNewDirectory(dg.getBody().getUserData().getName(), vfsApp.get(), null);
         homeDir = fileObjectRepository.save(homeDir);
 
-        AccessEntity homeDirAccess = new AccessEntity();
-        homeDirAccess.setActor(actorEntity);
-        homeDirAccess.setFileObject(homeDir);
-        homeDirAccess.setRole(AccessRole.OWNER);
-        homeDirAccess.setPermissions(Permission.vectorToCode(HOMEDIR_PERMISSIONS));
-        accessRepository.save(homeDirAccess);
+        accessRepository.save(AccessEntity.create(actorEntity, homeDir, AccessRole.OWNER, Permission.vectorToCode(HOMEDIR_PERMISSIONS)));
     }
 }

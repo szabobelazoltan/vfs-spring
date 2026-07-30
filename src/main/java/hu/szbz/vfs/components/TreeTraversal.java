@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.EnumSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 @Component
@@ -49,6 +50,19 @@ public class TreeTraversal {
 
         default T postProcessResult(T result) {
             return result;
+        }
+    }
+
+    public static class SubTreeCollector implements TreeTraversalProcessor<List<FileObjectEntity>> {
+        @Override
+        public List<FileObjectEntity> prepareResult() {
+            return new LinkedList<>();
+        }
+
+        @Override
+        public List<FileObjectEntity> processNode(FileObjectEntity node, List<FileObjectEntity> oldResultValue) {
+            oldResultValue.add(node);
+            return oldResultValue;
         }
     }
 }

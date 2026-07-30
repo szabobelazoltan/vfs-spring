@@ -1,5 +1,6 @@
 package hu.szbz.vfs.persistence.model;
 
+import hu.szbz.vfs.operationhandler.Permission;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -92,5 +93,14 @@ public class AccessEntity {
                 ", fileObject=" + fileObject +
                 ", actor=" + actor +
                 '}';
+    }
+
+    public static AccessEntity create(ActorEntity actor, FileObjectEntity fileObject, AccessRole role, int permissions) {
+        AccessEntity entity = new AccessEntity();
+        entity.setActor(actor);
+        entity.setFileObject(fileObject);
+        entity.setRole(role);
+        entity.setPermissions(permissions);
+        return entity;
     }
 }

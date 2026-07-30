@@ -1,0 +1,5 @@
+package hu.szbz.vfs.persistence.model;
+
+public enum SpecialDirectoryCode {
+    HOME
+}

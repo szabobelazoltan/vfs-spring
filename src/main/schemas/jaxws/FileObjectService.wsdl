@@ -149,7 +149,13 @@
             <xsd:complexType name="SearchFilterType">
                 <xsd:sequence>
                     <xsd:element name="field" type="tns:FilterFieldEnumType"/>
-                    <xsd:element name="value" type="xsd:string"/>
+                    <xsd:element name="values">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
 
@@ -159,6 +165,18 @@
                     <xsd:element name="ascending" type="xsd:boolean"/>
                 </xsd:sequence>
             </xsd:complexType>
+
+            <xsd:complexType name="GetSpecialDirectoryRequestBody">
+                <xsd:sequence>
+                    <xsd:element name="key" type="tns:SpecialDirectoryKeyEnumType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:simpleType name="SpecialDirectoryKeyEnumType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="HOME"/>
+                </xsd:restriction>
+            </xsd:simpleType>
 
             <!-- ====================================================== -->
             <!--                    RESPONSE BODY TYPES                  -->
@@ -202,6 +220,12 @@
                 <xsd:sequence>
                     <xsd:element name="totalCount" type="xsd:int"/>
                     <xsd:element name="items" type="tns:FileObjectBasicInfo" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="GetSpecialDirectoryResponseBody">
+                <xsd:sequence>
+                    <xsd:element name="fileObjectBasicInfo" type="tns:FileObjectBasicInfo"/>
                 </xsd:sequence>
             </xsd:complexType>
 
@@ -274,6 +298,16 @@
                     <xsd:extension base="tns:WsRequestBase">
                         <xsd:sequence>
                             <xsd:element name="body" type="tns:SearchFileObjectsRequestBody"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <xsd:complexType name="GetSpecialDirectoryRequestType">
+                <xsd:complexContent>
+                    <xsd:extension base="tns:WsRequestBase">
+                        <xsd:sequence>
+                            <xsd:element name="body" type="tns:GetSpecialDirectoryRequestBody"/>
                         </xsd:sequence>
                     </xsd:extension>
                 </xsd:complexContent>
@@ -353,6 +387,16 @@
                 </xsd:complexContent>
             </xsd:complexType>
 
+            <xsd:complexType name="GetSpecialDirectoryResponseType">
+                <xsd:complexContent>
+                    <xsd:extension base="tns:WsResponseBase">
+                        <xsd:sequence>
+                            <xsd:element name="body" type="tns:GetSpecialDirectoryResponseBody"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+
             <!-- ====================================================== -->
             <!--                     SIMPLE TYPES                -->
             <!-- ====================================================== -->
@@ -374,11 +418,12 @@
                     <xsd:enumeration value="NAME"/>
                     <xsd:enumeration value="TYPE"/>
                     <xsd:enumeration value="APPLICATION"/>
-                    <xsd:enumeration value="PARENT"/>
+                    <!-- <xsd:enumeration value="PARENT"/> -->
                     <xsd:enumeration value="STATUS"/>
                     <xsd:enumeration value="CREATION_DATETIME"/>
                     <xsd:enumeration value="MODIFICATION_DATETIME"/>
                     <xsd:enumeration value="DELETION_DATETIME"/>
+                    <xsd:enumeration value="RECURSIVE"/>
                 </xsd:restriction>
             </xsd:simpleType>
 
@@ -423,6 +468,9 @@
 
             <xsd:element name="SearchFileObjectsRequest" type="tns:SearchFileObjectsRequestType"/>
             <xsd:element name="SearchFileObjectsResponse" type="tns:SearchFileObjectsResponseType"/>
+
+            <xsd:element name="GetSpecialDirectoryRequest" type="tns:GetSpecialDirectoryRequestType"/>
+            <xsd:element name="GetSpecialDirectoryResponse" type="tns:GetSpecialDirectoryResponseType"/>
 
         </xsd:schema>
     </types>
@@ -493,6 +541,15 @@
         <part name="parameters" element="tns:SearchFileObjectsResponse"/>
     </message>
 
+
+    <message name="GetSpecialDirectoryRequestMessage">
+        <part name="parameters" element="tns:GetSpecialDirectoryRequest"/>
+    </message>
+
+    <message name="GetSpecialDirectoryResponseMessage">
+        <part name="parameters" element="tns:GetSpecialDirectoryResponse"/>
+    </message>
+
     <!-- ====================================================== -->
     <!--                        PORT TYPE                       -->
     <!-- ====================================================== -->
@@ -532,6 +589,11 @@
         <operation name="SearchFileObjects">
             <input message="tns:SearchFileObjectsRequestMessage"/>
             <output message="tns:SearchFileObjectsResponseMessage"/>
+        </operation>
+
+        <operation name="GetSpecialDirectory">
+            <input message="tns:GetSpecialDirectoryRequestMessage"/>
+            <output message="tns:GetSpecialDirectoryResponseMessage"/>
         </operation>
 
     </portType>
@@ -580,6 +642,12 @@
         </operation>
 
         <operation name="SearchFileObjects">
+            <soap:operation soapAction="http://example.com/fileobject/SearchFileObjects"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+
+        <operation name="GetSpecialDirectory">
             <soap:operation soapAction="http://example.com/fileobject/SearchFileObjects"/>
             <input><soap:body use="literal"/></input>
             <output><soap:body use="literal"/></output>

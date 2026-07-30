@@ -3,7 +3,7 @@
             xmlns:Q1="http://example.com/vfs" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:complexType name="MessageHeader">
         <xsd:sequence>
-            <xsd:element maxOccurs="1" minOccurs="0" name="applicationId"/>
+            <xsd:element maxOccurs="1" minOccurs="0" name="applicationId" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
 
@@ -75,7 +75,7 @@
             <xsd:element name="FileObjects">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="deletedFileObject" type="Q1:DeletedFileObjectDTO"/>
+                        <xsd:element name="deletedFileObject" type="Q1:DeletedFileObjectDTO" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>

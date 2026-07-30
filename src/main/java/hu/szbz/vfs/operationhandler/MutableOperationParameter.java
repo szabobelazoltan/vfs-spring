@@ -3,6 +3,7 @@ package hu.szbz.vfs.operationhandler;
 import hu.szbz.vfs.persistence.model.ActorEntity;
 import hu.szbz.vfs.persistence.model.ApplicationEntity;
 import hu.szbz.vfs.persistence.model.FileObjectEntity;
+import hu.szbz.vfs.soap.WsRequestBase;
 
 public class MutableOperationParameter<T> implements OperationParameter<T> {
     private final String applicationId;
@@ -76,5 +77,14 @@ public class MutableOperationParameter<T> implements OperationParameter<T> {
     @Override
     public int getCalculatedPermissions() {
         return this.calculatedPermissions;
+    }
+
+    public static <T> MutableOperationParameter<T> fromRequest(WsRequestBase rq, T body) {
+        return new MutableOperationParameter<>(
+                rq.getHeader().getApplicationId(),
+                rq.getHeader().getActorId(),
+                rq.getHeader().getFileObjectId(),
+                body
+        );
     }
 }

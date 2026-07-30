@@ -1,5 +1,9 @@
 package hu.szbz.vfs.operationhandler;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 public enum Permission {
     NONE(0, false),
     READ(1, false),
@@ -34,6 +38,18 @@ public enum Permission {
     public static int vectorToCode(Permission... permissions) {
         int result = 0;
         for (Permission permission : permissions) result |= permission.code;
+        return result;
+    }
+
+    public static List<String> codeToStringList(int input) {
+        return codeToList(input, Permission::name);
+    }
+
+    private static <T> List<T> codeToList(int input, Function<Permission, T> mapper) {
+        List<T> result = new ArrayList<>(8);
+        for (Permission permission : values()) {
+            if (permission.isPresent(input)) result.add(mapper.apply(permission));
+        }
         return result;
     }
 }

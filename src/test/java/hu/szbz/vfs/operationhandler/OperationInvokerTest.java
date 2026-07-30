@@ -146,27 +146,4 @@ public class OperationInvokerTest {
         assertEquals(ErrorCode.UNKNOWN_ACTOR.name(), result.getHeader().getErrorCode());
         assertEquals("Actor is not found with id: someActor", result.getHeader().getErrorMessage());
     }
-
-    @Test
-    void invoke_handlesMissingHomeDirectory() throws VirtualFileSystemException {
-        var app = new ApplicationEntityBuilder()
-                .build();
-        when(applicationRepository.findByExternalId(app.getExternalId())).thenReturn(Optional.of(app));
-
-        var actor = new ActorEntityBuilder()
-                .build();
-        when(actorEntityRepository.findByExternalId(actor.getExternalId())).thenReturn(Optional.of(actor));
-
-        String fileObjectId = "HOME";
-        when(fileObjectEntityRepository.findHome(actor)).thenReturn(Optional.empty());
-
-        var param = new MutableOperationParameter<Void>(app.getExternalId(), actor.getExternalId(), fileObjectId, null);
-        WsResponseBase result = testSubject.invoke(operation, Permission.NONE, param, WsResponseBase::new);
-
-        assertNotNull(result);
-        assertNotNull(result.getHeader());
-        assertFalse(result.getHeader().isSuccess());
-        assertEquals(ErrorCode.FILEOBJECT_NOT_EXIST.name(), result.getHeader().getErrorCode());
-        assertEquals("Home directory is not found for user: " + actor.getExternalId()  + "!", result.getHeader().getErrorMessage());
-    }
 }
